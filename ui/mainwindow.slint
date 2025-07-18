@@ -1,0 +1,121 @@
+import { Button, VerticalBox, LineEdit} from "std-widgets.slint";
+
+// Some repeating components.
+component StdInput inherits LineEdit {
+    font-size: 16px;
+    height: 35px;
+    horizontal-alignment: center;
+}
+
+component StdText inherits Text {
+    font-family: "Verdana";
+    horizontal-alignment: center;
+    font-weight: 300;
+    color: #fefefe;
+}
+
+// MainWindow component
+export component MainWindow inherits Window {
+    callback save_setup(cli_path: string, default_status_text: string, default_status_emoji: string);
+    callback save_status(game_file_name: string, status_text: string, status_emoji: string);
+    callback start_monitoring();
+    callback delete_all_data();
+
+    background: #1e7696;
+    title: "Github Game Status";
+
+    VerticalBox {
+        spacing: 50px;
+
+        StdText {
+            text: "Github Game Status";
+            font-size: 34px;
+        }       
+
+        VerticalBox {  
+            padding-top: 20px;
+            padding: 20px;
+
+            StdText {
+                text: "Setup";
+                font-size: 29px;
+            }
+
+            path_to_gh_cli := StdInput {
+                placeholder-text: "Enter absolute path to GitHub CLI";
+            }
+
+            default_status_text := StdInput {
+                placeholder-text: "Enter default status text";
+            }
+
+            default_status_emoji := StdInput {
+                placeholder-text: "Enter emoji(github version) of the default status";
+            }
+            
+            Button {
+                text: "Save";
+                height: 35px;
+                clicked => {
+                    root.save_setup(path_to_gh_cli.text, default_status_text.text, default_status_emoji.text);
+                }
+            }
+        }
+
+        VerticalBox {
+            padding: 20px;
+            spacing: 20px;
+
+            StdText {
+                text: "Game Status";
+                font-size: 29px;
+            }
+
+            game_file_name := StdInput {
+                placeholder-text: "Enter game .exe file name";
+            }
+
+            status_text := StdInput {
+                placeholder-text: "Enter text of the status";
+            }
+
+            
+            status_emoji := StdInput {
+                placeholder-text: "Enter emoji(github version) of the status";
+            }
+
+            Button {
+                text: "Save";
+                height: 35px;
+                clicked => {
+                    root.save_status(game_file_name.text, 
+                        status_text.text, status_emoji.text);
+                }
+            }
+        }
+
+        VerticalBox {
+            Button {
+                text: "Start Monitoring";
+                height: 35px;
+                clicked => {
+                    root.start_monitoring();
+                }
+            }
+        }
+
+        Button {
+            text: "Clear All Data";
+            height: 35px;
+            clicked => {
+                root.delete_all_data();
+            }
+        }
+
+        StdText {
+            text: "© 2025 HardCodeDev";
+            font-size: 16.5px;
+            color: #c7c7c7;
+        }
+    }
+}
