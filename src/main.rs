@@ -1,3 +1,5 @@
+#![windows_subsystem = "windows"]
+
 mod ui_logic;
 mod core_logic;
 mod json_utils;

@@ -1,11 +1,13 @@
 use std::fs::{File, remove_file};
 use std::io::Write;
 use std::error::Error;
+use std::os::windows::process::CommandExt;
 use std::process::Command;
 use std::{thread, time};
 use std::sync::{Arc, atomic};
 use slint::{SharedString, ToSharedString};
 use sysinfo::System;
+use windows_sys::Win32::System::Threading::CREATE_NO_WINDOW;
 use crate::{app_data::{SetupData, ProcessData, PROCESSES_DATA_FILE_NAME, SETUP_FILE_NAME, STATUS_LOGIC_BATCH_FILE_NAME, DEFAULT_STATUS_BATCH_FILE_NAME}, json_utils::{write_setup_data_to_json, read_setup_data_from_json}};
 
 // Create new SetupData and saves it as JSON
@@ -55,7 +57,7 @@ pub fn make_process_batch(status_text: SharedString, status_emoji: SharedString)
     file.write_all(bat_message.as_bytes())?;
 
     // Run the batch file using cmd
-    let status = Command::new("cmd").args(["/C", STATUS_LOGIC_BATCH_FILE_NAME]).status()?;
+    let status = Command::new("cmd").args(["/C", STATUS_LOGIC_BATCH_FILE_NAME]).creation_flags(CREATE_NO_WINDOW).status()?;
 
     // Check if the batch file executed successfully
     if status.success() {
@@ -92,7 +94,7 @@ pub fn set_default_status_batch() -> Result<(), Box<dyn Error>> {
     file.write_all(bat_message.as_bytes())?;
 
     // Run the batch file using cmd
-    let status = Command::new("cmd").args(["/C", DEFAULT_STATUS_BATCH_FILE_NAME]).status()?;
+    let status = Command::new("cmd").creation_flags(CREATE_NO_WINDOW).args(["/C", DEFAULT_STATUS_BATCH_FILE_NAME]).status()?;
 
     // Check if the batch file executed successfully
     if status.success() {
