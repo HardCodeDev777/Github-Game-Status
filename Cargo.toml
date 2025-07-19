@@ -15,4 +15,5 @@ sysinfo = "0.36.0"
 windows-sys = { version = "0.52", features = ["Win32_System_Threading"] }
 
 [build-dependencies]
+embed-resource = "2"
 slint-build = "1.12.1"
