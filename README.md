@@ -35,7 +35,3 @@ Everything is saved locally in human-readable JSON files.
 
 This project is licensed under the **MIT License**.  
 See [LICENSE](LICENSE) for full terms.
-
----
-
-> 💬 Got feedback, found a bug, or want to contribute? Open an issue or fork the repo!
